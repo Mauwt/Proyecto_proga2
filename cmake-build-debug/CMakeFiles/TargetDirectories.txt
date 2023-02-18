@@ -1,0 +1,3 @@
+C:/Users/razor/OneDrive/Escritorio/Proyecto_Progra2/cmake-build-debug/CMakeFiles/Proyecto_Progra2.dir
+C:/Users/razor/OneDrive/Escritorio/Proyecto_Progra2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/razor/OneDrive/Escritorio/Proyecto_Progra2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
