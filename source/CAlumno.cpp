@@ -64,18 +64,16 @@ void CAlumno::printNotas() {
     table[0].format().hide_border_top().hide_border_left().hide_border_right();
     table[1].format().hide_border_top().hide_border_left().hide_border_right();
 
-    //std::cout << "\n----------------------------------------\n";
-    //std::cout << "Alumno: " << nombre<<" " << apellido <<"   codigo: "<<codigo ;
 
-    table.add_row({" Evaluaciones "});
+    table.add_row({" Evaluaciones ", "  ", " "});
 
-    table[2][1].format().hide_border_right().hide_border_left().border("");
-    //std::cout << "\nPromedio: " << promedio << "\n";
-    //std::cout << "\nEvaluacion" << std::setw(10)<<"Nota\n";
+    table[2][1].format().border_left(" ").border_right(" ");
+    table[2][2].format().border_left(" ");
+
     for (auto it:examenes){
         table.add_row({it.getNombre(), std::to_string(it.getNota())  });
-        //std::cout << std::setw(10)<<it.getNombre() << std::setw(8) << it.getNota() << "\n";
     }
+
     std::cout << table << std::endl;
 }
 

@@ -168,6 +168,12 @@ void CMenu::addExam(){
         std::cout << "\nPeso del examen(valor porcentual en decimal): ";
         std::cin >> peso;
 
+        if(peso<=0){
+            std::string mensaje = "Se ingreso un peso invalido";
+            notificacion(false, mensaje);
+            esperar();
+            return;
+        }
 
         if(peso + seccion->getSumPesos() > 1.0){
             std::string mensaje = "El peso de la evaluacion superaria el porcentaje maximo de nota de esta seccion ";
@@ -240,19 +246,28 @@ void CMenu::addAlumno(){
     }
 }
 
-void CMenu::setNotas(){
-    int opc;
+void CMenu::setNotas() {
+    int cod;
     limpiar();
+    std::cout << "\nSeleccione el codigo de la seccion a la que desea agregar notas: \n";
     printSecciones();
-    do{
-        std::cout << "\nSeleccione la OPCION a la que desea agregar notas: ";
-        std::cin >> opc;
-        if(opc <=0 || opc > secciones.size()) std::cout << "\nIngrese una opcion valida\n";
-    } while (opc <=0 || opc > secciones.size());
+    std::cout << "\n\n0:Salir\n";
+    std::cout << "Seccion: ";
+    std::cin >> cod;
+
+    if (cod == 0) return;
+
 
     limpiar();
-    CSeccion* seccion = &secciones[opc-1];
+    CSeccion* seccion = findSeccion(cod);
 
+    if(!seccion ) {
+        std::string mensaje = "La seccion " + std::to_string(cod) + " ha alcanzado la cantidad maxima de alumnos o no  existe";
+        notificacion(false, mensaje);
+
+        esperar();
+        return;
+    }
     std::string exm_nombre ;
     std::vector <double> notas;
 
@@ -270,10 +285,19 @@ void CMenu::setNotas(){
     seccion->printAlumnos();
     std::cout << "\nIngrese las notas respectivas a cada alumno separadas por espacios\n";
 
-    for (int i = 0; i < secciones[opc-1].getAforo() ; i++){
+    for (int i = 0; i < seccion->getAforo() ; i++){
         double n;
+
         std::cin >> n;
+        if(n<0 || n>20){
+            std::string mensaje = "\nNo puede ingresar notas mayores a 20 o menores a 0";
+            notificacion(false, mensaje);
+            esperar();
+            return;
+            break;
+        }
         notas.push_back(n);
+
     }
     seccion->setNotas(exm_nombre, notas);
     esperar();

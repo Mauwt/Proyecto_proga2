@@ -39,8 +39,9 @@ void CSeccion::notificacion(bool exito, std::string &mensaje){
 
 void CSeccion::setNotas(std::string nombre, std::vector<double> notas) {
     if (notas.size() != alumnos.size()) {
-        std::cout << "\nCantidad de notas ingresadas incorrecta\n";
-        std::cout << "Actualmente hay " << alumnos.size() << " alumnos\n";
+        std::string mensaje =  "\nCantidad de notas ingresadas incorrecta\n";
+        notificacion(false, mensaje);
+        std::cout << "\nActualmente hay " << alumnos.size() << " alumnos\n";
     }
     else{
         for(int i = 0; i < notas.size(); i++){
@@ -49,7 +50,7 @@ void CSeccion::setNotas(std::string nombre, std::vector<double> notas) {
     }
 }
 void CSeccion::addExmsXAlum(CEvaluacion exm) {
-    if (aforo_exms >= cant_examenes) return;
+    if (aforo_exms > cant_examenes) return;
 
     for(auto &it: alumnos){
         it.addExamen(exm);
@@ -66,6 +67,7 @@ void CSeccion::retirar_Alum(std::string &_codigo) {
         }
     }
     alumnos.erase(alumnos.begin()+idx);
+    aforo--;
 }
 
 //Getters por alumnos
@@ -113,7 +115,7 @@ void CSeccion::printSeccion() {
         return;
     }
 
-    std::cout << "\nInformacion de la seccion "<< codigo << ":\n";
+    std::cout << "\nInformacion de la seccion "<< codigo << ":\n\n";
     for(auto &it :alumnos){
         it.printNotas();
     }
