@@ -82,4 +82,11 @@ public:
     void printExms();
     void printSeccion();
     void printTop10();
+    void printRanking();
+    std::vector <double> crearVector();
+    void printStats(std::vector<double> v);
+    void porcentajeAprobados();
+    void printSec_Prom();
+
+
 };

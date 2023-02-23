@@ -46,6 +46,8 @@ public:
     //Mostrar informacion
     void printNotas();
     void calcularPromedio();
+    bool getAProbado();
+    void MostrarAprobado();
 };
 
 

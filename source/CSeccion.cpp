@@ -1,4 +1,5 @@
 #include "../headers/CSeccion.h"
+#include <cmath>
 #include <tabulate/table.hpp>
 using namespace tabulate;
 
@@ -129,10 +130,11 @@ void CSeccion::printAlumnos(){
     table.add_row({" Nombre "," Apellido ", " Codigo "});
     std::cout << "\nAlumnos de la seccion "<< codigo << ":\n";
     for (auto &it:alumnos){
-        table.add_row({it.getNombre(), it.getApellido(), it.getCodigo()});
+        table.add_row({ it.getNombre(),  it.getApellido(), it.getCodigo()});
         //std::cout << it.getNombre() << " " << it.getApellido() <<" codigo: " << it.getCodigo()<<"\n";
     }
     std::cout << table << std::endl;
+    std::cout << std::endl;
 }
 void CSeccion::printExms() {
     if(examenes.size() == 0) {
@@ -145,21 +147,192 @@ void CSeccion::printExms() {
     }
 }
 
-void CSeccion::printTop10(){
-    for(int i = 0; i<alumnos.size(); i++){
-        for(int j = 0; j<alumnos.size()-i-1; j++){
-            if(alumnos[j].getPromedio()<alumnos[j+1].getPromedio()){
+void CSeccion::printTop10() {
+    for (int i = 0; i < alumnos.size(); i++) {
+        for (int j = 0; j < alumnos.size() - i - 1; j++) {
+            if (alumnos[j].getPromedio() < alumnos[j + 1].getPromedio()) {
                 CAlumno temp = alumnos[j];
-                alumnos[j] = alumnos[j+1];
-                alumnos[j+1] = temp;
+                alumnos[j] = alumnos[j + 1];
+                alumnos[j + 1] = temp;
             }
         }
     }
+
+
     std::cout << "\nTop10\n";
-    if(aforo <10) {
+    if (aforo < 10) {
         for (int i = 0; i < aforo; i++) alumnos[i].printNotas();
-    }else{
+    } else {
         for (int i = 0; i < 10; i++) alumnos[i].printNotas();
     }
+}
 
+void CSeccion::printRanking() {
+    std::vector <double> promedios;
+    for (CAlumno al:alumnos){
+        promedios.push_back(al.getPromedio());
+    }
+
+    std::cout<<"Ingrese el código del alumno:";
+    int posi,conta =0;
+    std::cin>>posi;
+    for(int i =0;i<promedios.size();i++){
+        if(promedios[posi]>promedios[i]){
+            conta++;
+        }
+    }
+    if(conta>=cant_alumnos/10.0){
+        std::cout<<"Ranking: décimo superior";
+    }
+    else{
+        if(conta>=cant_alumnos/5.0){
+            std::cout<<"Ranking: quinto superior";
+        }
+        else{
+            if(conta>=cant_alumnos/3.0){
+                std::cout<<"Ranking: tercio superior";
+            }
+            else{
+                if(conta>=cant_alumnos/2.0){
+                    std::cout<<"Ranking: medio superior";
+                }
+            }
+        }
+    }
+}
+
+
+
+
+void printVector(std::vector<double>(v)){
+    for(auto item : v)
+        std::cout << item << " ";
+    std::cout << std::endl;
+}
+
+std::vector<std::vector<char>> generarMat(int f){
+    std::vector<std::vector<char>> matrix(f,std::vector<char>(21));
+    for(auto & row:matrix)
+        for(auto & item:row)
+            item=' ';
+    return matrix;
+}
+
+std::vector<std::vector<char>> hist(std::vector<std::vector<char>>(mat), std::vector<double>(v)){
+    for(auto num:v) {
+        for (int j = 0; j < mat[0].size(); j++) {
+            if (num >= j & num < j + 1) {
+                if (mat[v.size() - 1][j] == ' ')
+                    mat[v.size() - 1][j] = '*';
+                else
+                    for (int i = 0; i < mat.size(); i++) {
+                        if (mat[i][j] == '*')
+                            mat[i - 1][j] = '*';
+                    }
+            }
+        }
+    }
+    return mat;
+}
+
+void printHist(std::vector<std::vector<char>>(mat)){
+    int cant=mat[0].size();
+    int ini=0;
+    bool salir=false;
+
+    for(int i=0;i<mat.size();i++){
+        for(int j=0; j<=cant;j++)
+            if (mat[i][j] == '*') {
+                ini = i;
+                salir = true;
+
+            }
+        if (salir)
+            break;
+    }
+
+
+    std::cout <<"\n";
+    std::cout <<"                  -------------------HISTOGRAMA DE NOTAS-------------------      " <<"\n\n";
+    for(int i=ini;i<mat.size();i++){
+        for(int j=0; j<=cant;j++)
+            std::cout<< std::setw(5)<< mat[i][j];
+        std::cout << std::endl;}
+    std::cout << " ";
+    for (auto j = 0; j < 21; j++) {
+
+        std::cout << j << std::setw(5) << std::setfill('-');
+    }
+    std::cout << '\n';
+}
+
+void datosEstad(std::vector<double>v){
+    sort(v.begin(), v.end());
+    double sum=0;
+    double mediana;
+
+    for(auto &item:v)
+        sum=sum+item;
+    double promedio = sum/double(v.size());
+
+    if(v.size()/2!=0)
+        mediana=v[v.size()/2];
+    else
+    {
+        mediana=  (v[v.size()/2]+v[v.size()/2 +1])/2.0;
+    }
+
+
+    std::cout << "\nEl promedio de notas es " << promedio;
+    std::cout << "\nLa mediana de las notas es "<< mediana;
+
+
+}
+std::vector  <double>  CSeccion::crearVector() {
+    std::vector<double> promedios;
+    for(CAlumno al:alumnos){
+        promedios.push_back(al.getPromedio());
+    }
+    return promedios;
+}
+
+void  CSeccion::printStats(std::vector<double> v) {
+    int cant;
+
+    /*srand(::time(nullptr));
+    //cant  = 50;
+    //vector<double>v{8.5, 2, 16.4, 0.5, 10.45, 11, 13, 2.6, 9, 10, 14, 19.4, 5, 15.8, 17.3, 1, 11.9, 13.2, 0, 14, 7.5, 12.1, 14, 4.6, 0, 20, 19, 15, 15, 11, 1, 17, 12, 0, 9, 5, 9, 20, 5 ,8 ,17, 15, 4, 15, 9 ,12 ,7,
+                    20, 3 ,15};
+
+    /*for (int i=0; i<cant; i++)
+    {
+        v.push_back(rand()%21);
+    }*/
+
+
+    std::vector<std::vector<char>> matriz=generarMat(v.size());
+    printVector(v);
+    std::cout << "\n\n";
+    printHist(hist(matriz,v));
+    datosEstad(v);
+}
+
+void CSeccion::porcentajeAprobados() {
+    int aux=0,p;
+    for (CAlumno al:alumnos){
+        if(al.getAProbado()) aux++;
+    }
+    p=100*aux/alumnos.size();
+    std::cout<<"El porcentaje de aprobados"<<" en la seccion "<<codigo<<" es: "<<p<<"%.\n";
+}
+void CSeccion::printSec_Prom(){ //ANDRES
+    int acum=0, cont=0;
+    for(int i = 0; i<alumnos.size(); i++){
+        cont++;
+        acum = acum + alumnos[i].getPromedio();
+    }
+    std::cout << "\nPromedio de la seccion\n";
+    std::cout << acum*1.0/cont*1.0;
+    std::cout << "\nPromedio de la seccion redondeado\n";
+    std::cout << round(acum*1.0/cont*1.0);
 }

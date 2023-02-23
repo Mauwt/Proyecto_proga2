@@ -26,6 +26,10 @@ private:
     void cambiarNota();//listo
     void top_10(); // listo
     void eliminarAlum();
+    void Ranking();
+    void noelia();
+    void seccionAprobados();
+    void Nota_Prom();
 
 
     void printSecciones();

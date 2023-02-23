@@ -53,6 +53,8 @@ void CMenu::notificacion(bool exito, std::string &mensaje){
         .padding_right(0)
         .corner("x")
         .column_separator("|");
+
+
     tabulate::Table::Row_t row;
     if (!exito) {
         limpiar();
@@ -356,6 +358,7 @@ void CMenu::ver_alumno(){
         return;
     }
     alumno->printNotas();
+    alumno -> MostrarAprobado();
     esperar();
 }
 
@@ -498,6 +501,29 @@ void CMenu::eliminarAlum(){
 
 }
 
+void CMenu::Ranking(){
+    int opc;
+    printSecciones();
+
+    std::cout << "\nSeleccione el codigo de la seccion que desea ver: ";
+    std::cin >> opc;
+
+    if(opc == 0) return;
+
+    CSeccion* seccion = findSeccion(opc);
+
+    if(!seccion){
+        std::string mensaje = " No se encontro la seccion ";
+        notificacion(false,mensaje);
+        esperar();
+        return;
+    }
+
+    seccion->printRanking();
+    esperar();
+
+}
+
 void CMenu::top_10(){
     int opc;
     for(int i  = 0; i < secciones.size(); i++){
@@ -515,9 +541,104 @@ void CMenu::top_10(){
     esperar();
 }
 
+void CMenu::noelia(){
+    int opc;
+    printSecciones();
+
+    std::cout << "\nSeleccione el codigo de la seccion que desea ver: ";
+    std::cin >> opc;
+
+    if(opc == 0) return;
+    CSeccion* seccion = findSeccion(opc);
+
+    if(!seccion ) {
+        std::string mensaje = "La seccion " + std::to_string(opc) + " ha alcanzado la cantidad maxima de alumnos o no  existe";
+        notificacion(false, mensaje);
+
+        esperar();
+        return;
+    }
+
+    std::vector<double> v = seccion -> crearVector();
+    seccion->printStats(v);
+    esperar();
+    /*
+    for (CSeccion i:secciones)
+        if (seccion==i.getCodigo()){
+            i.crearVector();
+        }
+    */
+
+}
+
+void CMenu::seccionAprobados() {
+
+    //falta imrpimir el cuadrito con las secciones
+    int cod;
+    limpiar();
+    std::cout << "\nSeleccione el codigo de la seccion a la que desea agregar notas: \n";
+    printSecciones();
+    std::cout << "\n\n0:Salir\n";
+    std::cout << "Seccion: ";
+    std::cin >> cod;
+
+    if (cod == 0) return;
+
+
+    limpiar();
+    CSeccion* seccion = findSeccion(cod);
+
+    if(!seccion ) {
+        std::string mensaje = "La seccion " + std::to_string(cod) + " ha alcanzado la cantidad maxima de alumnos o no  existe";
+        notificacion(false, mensaje);
+
+        esperar();
+        return;
+    }
+
+
+
+    seccion -> porcentajeAprobados();
+    esperar();
+}
+
+void CMenu::Nota_Prom(){ //ANDRES
+    /*int sec;
+    for(int i  = 0; i < secciones.size(); i++){
+        int msec = secciones[i].getCodigo();
+        std::cout << "\n" << i+1  <<". Seccion: \t" << msec << "\n";
+    }*/
+
+    int cod;
+    limpiar();
+    std::cout << "\nSeleccione el codigo de la seccion a la que desea agregar notas: \n";
+    printSecciones();
+    std::cout << "\n\n0:Salir\n";
+    std::cout << "Seccion: ";
+    std::cin >> cod;
+
+    if (cod == 0) return;
+
+    limpiar();
+    CSeccion* seccion = findSeccion(cod);
+
+    if(!seccion ) {
+        std::string mensaje = "La seccion " + std::to_string(cod) + " ha alcanzado la cantidad maxima de alumnos o no  existe";
+        notificacion(false, mensaje);
+
+        esperar();
+        return;
+    }
+   // std::cout << "\nSeleccione la Seccion que desea ver: ";
+    //std::cin >> sec;
+
+    seccion->printSec_Prom();
+    esperar();
+}
+
 //Menu
 
-enum class Opciones { add_secc=1, add_alm, add_exm , ver_alm, set_notas,  cambiar_nota, ver_secc,  elm_alm ,top_10 };
+enum class Opciones { add_secc=1, add_alm, add_exm , ver_alm, set_notas,  cambiar_nota, ver_secc,  elm_alm ,top_10 , ranking, estats, aprobados, promxSec};
 
 void CMenu::setOpcion() {
     limpiar();
@@ -549,11 +670,26 @@ void CMenu::setOpcion() {
         case Opciones::top_10:
             top_10();
             break;
+        case Opciones::ranking:
+            Ranking();
+            break;
+        case Opciones::estats:
+            noelia();
+            break;
+        case Opciones::aprobados:
+            seccionAprobados();
+            break;
+        case Opciones::promxSec:
+            Nota_Prom();
+            break;
         default:
             std::cout << "\nIngrese una opcion valida\n";
             break;
     }
 }
+
+
+
 void CMenu::imprimirMenu() {
 
     tabulate::Table opciones;
@@ -562,14 +698,18 @@ void CMenu::imprimirMenu() {
     opciones.add_row({" 3. Agregar evaluacion" , " 4.Ver informacion de un estudiante" });
     opciones.add_row({" 5. Ingresar notas por seccion", "6. Cambiar nota de un alumno" });
     opciones.add_row({" 7. Ver alumnos por seccion", " 8. Eliminar alumno" });
-    opciones.add_row({" 9. Top 10" });
+    opciones.add_row({" 9. Top 10", " " });
+    opciones.add_row({" 10. Ranking", " " });
+    opciones.add_row({" 11. Estadisticas" });
+    opciones.add_row({" 11. Aprobados", " " });
+    opciones.add_row({" 13. Promedio por seccion", " " });
     opciones.add_row({" 0  " ,"Salir" });
 
     opciones[0][0].format().font_color(Color::yellow).font_align(FontAlign::center).font_style({FontStyle::bold});
     opciones[0][1].format().font_color(Color::yellow).font_align(FontAlign::center).font_style({FontStyle::bold});
 
-    opciones[6][0].format().font_align(FontAlign::center).font_color(Color::red).font_background_color(Color::white);
-    opciones[6][1].format().font_style({FontStyle::italic}).font_align(FontAlign::center).font_color(Color::red).font_background_color(Color::white);
+    opciones[10][0].format().font_align(FontAlign::center).font_color(Color::red).font_background_color(Color::white);
+    opciones[10][1].format().font_style({FontStyle::italic}).font_align(FontAlign::center).font_color(Color::red).font_background_color(Color::white);
     for(int i = 1; i<6;i++){
         opciones[i][0].format().font_align(FontAlign::right);
         opciones[i][1].format().font_align(FontAlign::right);

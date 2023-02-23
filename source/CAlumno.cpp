@@ -1,4 +1,5 @@
 #include "../headers/CAlumno.h"
+#include <cmath>
 #include <tabulate/table.hpp>
 using namespace tabulate;
 
@@ -61,6 +62,7 @@ void CAlumno::printNotas() {
     tabulate::Table table;
     table.add_row({nombre, apellido, "codigo: "+codigo});
     table.add_row({"Promedio :" , std::to_string(promedio)});
+    table.add_row({"Promedio redondeo :" , std::to_string(round(promedio))});
     table[0].format().hide_border_top().hide_border_left().hide_border_right();
     table[1].format().hide_border_top().hide_border_left().hide_border_right();
 
@@ -76,4 +78,13 @@ void CAlumno::printNotas() {
 
     std::cout << table << std::endl;
 }
+bool CAlumno::getAProbado() {
+    if (promedio>=11) aprobado=true;
+    else aprobado= false;
+    return aprobado;
+}
 
+void CAlumno::MostrarAprobado() {
+    if (getAProbado()) std::cout<<"Estado: Aprobado\n\n";
+    else std::cout<<"Estado: Desaprobado\n\n";
+}
