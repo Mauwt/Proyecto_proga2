@@ -688,8 +688,6 @@ void CMenu::setOpcion() {
     }
 }
 
-
-
 void CMenu::imprimirMenu() {
 
     tabulate::Table opciones;
@@ -710,7 +708,7 @@ void CMenu::imprimirMenu() {
 
     opciones[10][0].format().font_align(FontAlign::center).font_color(Color::red).font_background_color(Color::white);
     opciones[10][1].format().font_style({FontStyle::italic}).font_align(FontAlign::center).font_color(Color::red).font_background_color(Color::white);
-    for(int i = 1; i<6;i++){
+    for(int i = 1; i<10;i++){
         opciones[i][0].format().font_align(FontAlign::right);
         opciones[i][1].format().font_align(FontAlign::right);
     }

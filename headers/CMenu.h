@@ -14,6 +14,7 @@ private:
     CSeccion* findSeccion(int &cod);
     void notificacion(bool exito, std::string &mensaje);
 
+public:
 
     static void imprimirMenu();
     void setOpcion();
@@ -31,10 +32,8 @@ private:
     void seccionAprobados();
     void Nota_Prom();
 
-
     void printSecciones();
 
-public:
-    CMenu(): opcion{} {}
+    CMenu(){};
     void ejecutar();
 };
