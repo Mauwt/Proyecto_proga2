@@ -527,17 +527,14 @@ void CMenu::Ranking(){
 
 void CMenu::top_10(){
     int opc;
-    for(int i  = 0; i < secciones.size(); i++){
-        int cod = secciones[i].getCodigo();
-        std::cout << "\n" << i+1  <<". Seccion: \t" << cod << "\n";
-    }
-    do{
-        std::cout << "\nSeleccione la OPCION que desea ver: ";
-        std::cin >> opc;
-        if (opc <=0 || opc > secciones.size()) std::cout << "\nIngrese una opcion valida\n";
-    } while (opc <=0 || opc > secciones.size());
+    std::cout << "\nIngrese el codigo de la seccion: \n";
+    printSecciones();
+    std::cout << "O. Salir";
+    std::cout << "\nOpicon: ";
 
-    CSeccion* seccion = &secciones[opc-1];
+    std::cin >> opc;
+    if(opc == 0) return;
+    CSeccion* seccion = findSeccion(opc);
     seccion->printTop10();
     esperar();
 }

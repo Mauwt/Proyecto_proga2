@@ -175,8 +175,11 @@ void CSeccion::printRanking() {
     printSeccion();
     std::cout << "\n\n";
     std::cout<<"Ingrese el segundo numero del codigo del alumno:";
+
+    /*
     int posi;
     int conta =0;
+
     std::cin>>posi;
     for(int i =0;i<promedios.size();i++){
         if(promedios[posi]>promedios[i]){
@@ -200,6 +203,29 @@ void CSeccion::printRanking() {
                 }
             }
         }
+    }
+    */
+    int posi;
+    int puesto =0;
+
+    std::cin>>posi;
+    for(int i =0;i<alumnos.size();i++){
+        if(promedios[posi] < promedios[i]){
+            puesto++;
+        }
+    }
+
+    if(puesto<=alumnos.size()/10.0){
+        std::cout<<"Ranking: decimo superior";
+    } else if(puesto<=alumnos.size()/5.0){
+        std::cout<<"Ranking: quinto superior";
+
+    } else if(puesto<=alumnos.size()/3.0){
+        std::cout<<"Ranking: tercio superior";
+    } else if(puesto<=alumnos.size()/2.0) {
+        std::cout<<"Ranking: medio superior";
+    }else{
+        std::cout << "El alumno no esta calificado en ningun ranking por pertenecer 50% con más baja nota";
     }
 }
 
