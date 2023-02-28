@@ -19,6 +19,20 @@ public:
     //Constructor
     CSeccion() {};
 
+    //Constructor para muestra
+    CSeccion(int _codigo, int _q_al, int _q_ex, std::vector<CAlumno> &als, std::vector<CEvaluacion> &exs){
+        codigo = _codigo;
+        cant_alumnos = _q_al;
+        cant_examenes = _q_ex;
+        for (auto it :als){
+            alumnos.push_back(it);
+            aforo++;
+        }
+        for (auto it:exs){
+            examenes.push_back(it);
+            aforo_exms++;
+        }
+    }
     //Destructor
     ~CSeccion(){};
 

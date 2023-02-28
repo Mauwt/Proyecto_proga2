@@ -13,6 +13,8 @@ public:
     CEvaluacion(){};
     CEvaluacion(std::string &_nombre, float &_peso, float &_nota) : nombre(_nombre), peso(_peso),nota(_nota){}
 
+    //Constructor para muestra
+    CEvaluacion(std::string _nombre, float _peso, float _nota) : nombre(_nombre), peso(_peso),nota(_nota){}
     //Destructor
     ~CEvaluacion(){};
     //Setters

@@ -33,7 +33,33 @@ public:
     void Nota_Prom();
 
     void printSecciones();
-
-    CMenu(){};
     void ejecutar();
+
+    CMenu(){
+
+        int cod_secc = 1;
+        CEvaluacion ex1("EX1", 0.45, 0);
+        CEvaluacion ex2("EX2", 0.55, 0);
+
+        std::vector<CEvaluacion> exs = {ex1, ex2};
+        std::vector<CAlumno> als;
+        for(int i = 0; i < 20; i++){
+            char I = 65+i;
+            std::string name(1,I);
+            CAlumno al(
+                    name,
+                    name,
+                    1,
+                    exs,i
+                    );
+
+            als.push_back(al);
+        }
+        CSeccion secc(
+                1,20,2,
+                als,exs
+                );
+        secciones.push_back(secc);
+    };
+
 };

@@ -23,6 +23,18 @@ public:
     CAlumno(){};
     CAlumno(std::string &_nombre, std::string &_apellido, int &_seccion );
 
+    //Constructor de prueba
+    CAlumno(std::string _nombre, std::string _apellido, int _seccion, std::vector<CEvaluacion> &exs, int ord ){
+        nombre = _nombre;
+        apellido = _apellido;
+        seccion = _seccion;
+
+        for(auto it:exs){
+            examenes.push_back(it);
+        }
+        codigo= std::to_string(seccion) + '_'+ std::to_string(ord);
+    };
+
 
     // Setters
     void setNombre(std::string _nombre){nombre = _nombre ;}

@@ -519,6 +519,7 @@ void CMenu::Ranking(){
         return;
     }
 
+    limpiar();
     seccion->printRanking();
     esperar();
 
@@ -552,7 +553,7 @@ void CMenu::noelia(){
     CSeccion* seccion = findSeccion(opc);
 
     if(!seccion ) {
-        std::string mensaje = "La seccion " + std::to_string(opc) + " ha alcanzado la cantidad maxima de alumnos o no  existe";
+        std::string mensaje = "La seccion " + std::to_string(opc) + " no  existe";
         notificacion(false, mensaje);
 
         esperar();
@@ -573,7 +574,7 @@ void CMenu::noelia(){
 
 void CMenu::seccionAprobados() {
 
-    //falta imrpimir el cuadrito con las secciones
+
     int cod;
     limpiar();
     std::cout << "\nSeleccione el codigo de la seccion a la que desea agregar notas: \n";
@@ -589,7 +590,7 @@ void CMenu::seccionAprobados() {
     CSeccion* seccion = findSeccion(cod);
 
     if(!seccion ) {
-        std::string mensaje = "La seccion " + std::to_string(cod) + " ha alcanzado la cantidad maxima de alumnos o no  existe";
+        std::string mensaje = "La seccion " + std::to_string(cod) + " no  existe";
         notificacion(false, mensaje);
 
         esperar();
@@ -623,7 +624,7 @@ void CMenu::Nota_Prom(){ //ANDRES
     CSeccion* seccion = findSeccion(cod);
 
     if(!seccion ) {
-        std::string mensaje = "La seccion " + std::to_string(cod) + " ha alcanzado la cantidad maxima de alumnos o no  existe";
+        std::string mensaje = "La seccion " + std::to_string(cod) + " no  existe";
         notificacion(false, mensaje);
 
         esperar();

@@ -172,9 +172,11 @@ void CSeccion::printRanking() {
     for (CAlumno al:alumnos){
         promedios.push_back(al.getPromedio());
     }
-
-    std::cout<<"Ingrese el código del alumno:";
-    int posi,conta =0;
+    printSeccion();
+    std::cout << "\n\n";
+    std::cout<<"Ingrese el segundo numero del codigo del alumno:";
+    int posi;
+    int conta =0;
     std::cin>>posi;
     for(int i =0;i<promedios.size();i++){
         if(promedios[posi]>promedios[i]){
@@ -261,7 +263,7 @@ void printHist(std::vector<std::vector<char>>(mat)){
     std::cout << " ";
     for (auto j = 0; j < 21; j++) {
 
-        std::cout << j << std::setw(5) << std::setfill('-');
+        std::cout << j << std::setw(5) << std::setfill(' ');
     }
     std::cout << '\n';
 }
