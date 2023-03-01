@@ -441,17 +441,13 @@ void CMenu::eliminarAlum(){
     int cod;
     std::cout << "\nIngresar el codigo de la seccion del alumno nuevo: \n";
     printSecciones();
+    std::cout << "\n0. Salir";
     std::cout << "\nSeccion: ";
     std::cin >> cod;
 
-    CSeccion* seccion ;
+    if(cod ==0) return;
+    CSeccion* seccion = findSeccion(cod) ;
 
-    for (auto &it:secciones){
-        if(cod == it.getCodigo()) {
-            seccion = &it;
-            break;
-        }
-    }
     tabulate::Table chart;
     chart.format()
             .font_color(Color::white)
@@ -474,8 +470,10 @@ void CMenu::eliminarAlum(){
     else{
 
         std::string _codigo;
-
+        limpiar();
+        seccion ->printAlumnos();
         std::cout << "\nCodigo del alumno a retirar: ";
+
         std::cin >> _codigo;
 
         if(!seccion->isInAlms(_codigo)){
@@ -697,7 +695,7 @@ void CMenu::imprimirMenu() {
     opciones.add_row({" 9. Top 10", " " });
     opciones.add_row({" 10. Ranking", " " });
     opciones.add_row({" 11. Estadisticas" });
-    opciones.add_row({" 11. Aprobados", " " });
+    opciones.add_row({" 12. Aprobados", " " });
     opciones.add_row({" 13. Promedio por seccion", " " });
     opciones.add_row({" 0  " ,"Salir" });
 
@@ -715,17 +713,6 @@ void CMenu::imprimirMenu() {
 
     std::cout << opciones << std::endl;
     std::cout << "OPCION:  ";
-    /*
-    cout << "Elija una opcion\n\n";
-    cout << "1. Agregar una seccion\n";
-    cout << "2. Agregar un alumno\n";
-    cout << "3. Agregar una evaluacion\n";
-    cout << "4. Ingresar notas de toda una seccion\n";
-    cout << "5. Ver alumnos de una seccion\n";
-    cout << "6. Ver informacion de un estudiante\n";
-    cout << "7. Cambiar una nota de un alumno \n";
-    cout << "8. Top 10 por seccion\n\n";
-    cout << "\nopcion:  ";*/
 
 }
 void CMenu::ejecutar() {
